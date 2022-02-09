@@ -29,7 +29,6 @@ def points_distance(p1,p2):
 def get_distance(e):
     return e[1]
 
-
 def point_distance_line(point,line_point1,line_point2):
     vec1 = line_point1 - point
     vec2 = line_point2 - point
@@ -38,3 +37,11 @@ def point_distance_line(point,line_point1,line_point2):
     #print(distance)
     return distance
     
+def get_visible_percentage(camera_hits,sample_list):
+    visiable_points = set()
+    for i in range(len(camera_hits)):
+        for j in range(len(camera_hits[i])):
+            tup = tuple(camera_hits[i][j][0][0])
+            if tup not in visiable_points:
+                visiable_points.add(tup)
+    return float(len(visiable_points)/len(sample_list))
