@@ -1,6 +1,9 @@
 import numpy as np
 
-def get_visiable_percentage(sample_list,camera_list,sample_size):
+def get_all_hits(sample_list,camera_list,sample_size):
+    '''
+    Return all hit points that on each sight ray with ascending distance order
+    '''
     all_camera_hits = []
     # For every camera
     for camerapoint in camera_list:
@@ -12,10 +15,19 @@ def get_visiable_percentage(sample_list,camera_list,sample_size):
             for spoint in sample_list:
                 dist = point_distance_line(spoint,camerapoint,endpoint)
                 if dist < sample_size:
-                    line_hits.append(spoint)
+                    line_hits.append([spoint,points_distance(spoint,camerapoint)])
+            # Sort the line_hits with its points distance
+            line_hits.sort(key=get_distance)
             camera_hits.append(line_hits)
         all_camera_hits.append(camera_hits)
+    
     return all_camera_hits
+
+def points_distance(p1,p2):
+    return np.linalg.norm(p1-p2)
+
+def get_distance(e):
+    return e[1]
 
 
 def point_distance_line(point,line_point1,line_point2):
